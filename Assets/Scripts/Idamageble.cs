@@ -1,3 +1,4 @@
-﻿interface IDamageble{
-    onDamage();
+﻿interface IDamageble
+{
+   void onDamage(float rangeDamage);
 }

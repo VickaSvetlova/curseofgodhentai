@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HiroShoot : MonoBehaviour
+public class Shoot : MonoBehaviour
 {
     #region Enums
 
@@ -42,6 +42,7 @@ public class HiroShoot : MonoBehaviour
     private GameObject boolet;
     private int WeaponNumber = 0;
     //private gun guns1;
+    [SerializeField]
     private List<gun> Weapons = new List<gun>();
 
     #endregion
@@ -66,7 +67,7 @@ public class HiroShoot : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.RightControl))
         {
-            guntShoot(Weapons[WeaponNumber]);
+            gunShoot(Weapons[WeaponNumber]);
         }
         if (Input.GetKey(KeyCode.Alpha1))
         {
@@ -77,15 +78,19 @@ public class HiroShoot : MonoBehaviour
             switchWeapon(1);
         }
     }
-    private void guntShoot(gun gunCurrent)//выстрел
+    private void gunShoot(gun gunCurrent)//выстрел
     {
         if (gunCurrent.gunReady && gunCountAmmo(gunCurrent))//если оружие готово и есть патроны
         {
-            GameObject booletClone = Instantiate(boolet, gunSpot.position, Quaternion.identity);
-            booletClone.transform.forward = transform.forward;
+            createBoolet();
             gunCurrent.gunReady = false;
             StartCoroutine(gunFireRate(gunCurrent));//такт затвора
         }
+    }
+    private void createBoolet()
+    {
+        GameObject booletClone = Instantiate(boolet, gunSpot.position, Quaternion.identity);
+        booletClone.transform.forward = transform.forward;
     }
     IEnumerator gunReload(gun gunCurrent)//перезарядка
     {
