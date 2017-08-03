@@ -25,6 +25,7 @@ public class BaseEnemy : MonoBehaviour
     [SerializeField]
     private float maxDistance=100;
     private RaycastHit rayHitObject;
+    public Transform gunSpot;
 
     #endregion 
 
@@ -66,8 +67,8 @@ public class BaseEnemy : MonoBehaviour
     private bool RayCaster(Vector3 dir)
     {
         RaycastHit[] hits;
-        hits = Physics.RaycastAll(transform.position, dir, maxDistance);
-        Debug.DrawRay(transform.position, dir*maxDistance, Color.green);
+        hits = Physics.RaycastAll(gunSpot.transform.position, dir, maxDistance);
+        Debug.DrawRay(gunSpot.transform.position, dir*maxDistance, Color.green);
         for (int i = 0; i < hits.Length; i++)
         {
             RaycastHit hit = hits[i];

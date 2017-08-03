@@ -27,11 +27,13 @@ public class Person : MonoBehaviour {
     #endregion
 
     #region Methods
+    ///характеристики
     ///перемещатся
+    ///смотреть
     ///выбирать оружие
     ///стрелять из оружия
     ///использовать прыжковый двигатель
-    ///использовать кошку
+    ///использовать гарпун
     #endregion
 
     #region Event Handlers
