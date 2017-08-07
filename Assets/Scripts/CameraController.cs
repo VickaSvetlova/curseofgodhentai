@@ -24,6 +24,8 @@ public class CameraController : MonoBehaviour
     public float smoothTime;
     private Vector3 originalCameraPosition;
     private bool shake=false;
+    private float tracSpeed=10;
+
     [SerializeField]
     public GameObject Target { get; private set; }
     #endregion
@@ -37,22 +39,44 @@ public class CameraController : MonoBehaviour
     #region Methods
     private void Start()
     {
-        Target = GameObject.FindGameObjectWithTag("Player");
+       // Target = GameObject.FindGameObjectWithTag("Player");
     }
-    private void Update()
+    private void LateUpdate()
     {
         if (Target == null) { return; }
-        if (shake) { return;}
-        cameraMove();
+
+        float x = IncrementTowards(transform.position.x, Target.transform.position.x, tracSpeed);
+        float y = IncrementTowards(transform.position.y, Target.transform.position.y, tracSpeed);
+        transform.position = new Vector3(x, y,transform.position.z);
+    }
+
+    
+    public void setTarget(GameObject target)
+    {
+        Target = target;
     }
 
     private void cameraMove()
     {
-        float newPosition = Mathf.SmoothDamp(transform.position.z, Target.transform.position.z, ref Speed, smoothTime);
-        transform.position = new Vector3(transform.position.x, transform.position.y, newPosition);
+        float newPositionX = Mathf.SmoothDamp(transform.position.x, Target.transform.position.x, ref Speed, smoothTime);
+        float newPositionY = Mathf.SmoothDamp(transform.position.y, Target.transform.position.y, ref Speed, smoothTime);
+        transform.position = new Vector3(newPositionX, newPositionY, transform.position.z);
+    }
+    private float IncrementTowards(float CurSpeed, float TSpeed, float Accsel)
+    {
+        if (CurSpeed == TSpeed)
+        {
+            return CurSpeed;
+        }
+        else
+        {
+            float dir = Mathf.Sign(TSpeed - CurSpeed);
+            CurSpeed += Accsel * Time.deltaTime * dir;
+            return (dir == Mathf.Sign(TSpeed - CurSpeed)) ? CurSpeed : TSpeed;
+        }
     }
     #region ShakeCam
-   public void cameraShaker(float shakeAmt,Collision coll)
+    public void cameraShaker(float shakeAmt,Collision coll)
     {
         return;
         

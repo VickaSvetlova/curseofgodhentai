@@ -56,35 +56,37 @@ public class HiroScript : MonoBehaviour
     }
     #region ///перемещения
     private void controllKey()
+       
     {
+       
         //кнопки контроля перемещения. влево вправо верх вниз вперед назад
 
         //если земля под ногами
-        if (!fall)
-        {
-            if (Input.GetKey(KeyCode.D))
-            {
-                MovePlayer(direction.rigth); //идем в право
+        //if (!fall)
+        //{
+        //    if (Input.GetKey(KeyCode.D))
+        //    {
+        //        MovePlayer(direction.rigth); //идем в право
 
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                MovePlayer(direction.left); //идем в лево
-            }
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                slide = true;
-                MovePlayer(direction.slide); //скольжение
-            }
-        }
-        if (Input.GetKey(KeyCode.Space)) //пробуем прыгнуть
-        {
-            if (isOnGround(Vector3.down)) //если земля под ногами
-            {
-                fall = false;
-                MovePlayer(direction.jump); //прыгаем            
-            }
-        }
+        //    }
+        //    if (Input.GetKey(KeyCode.A))
+        //    {
+        //        MovePlayer(direction.left); //идем в лево
+        //    }
+        //    if (Input.GetKey(KeyCode.LeftControl))
+        //    {
+        //        slide = true;
+        //        MovePlayer(direction.slide); //скольжение
+        //    }
+        //}
+        //if (Input.GetKey(KeyCode.Space)) //пробуем прыгнуть
+        //{
+        //    if (isOnGround(Vector3.down)) //если земля под ногами
+        //    {
+        //        fall = false;
+        //        MovePlayer(direction.jump); //прыгаем            
+        //    }
+        //}
         if (Input.GetKey(KeyCode.RightControl))
         {
             if (weapon == null) { return; }
@@ -143,20 +145,22 @@ public class HiroScript : MonoBehaviour
 
                 break;
             case direction.jump:
+                return;
                 if (!fall) //если не падаем
                 {
+                   
                     fall = true;
                     if (Vector3.Dot(directionMove(transform.position, startPos), Vector3.forward) > 0)
                     {
                         rigBody.AddForce(new Vector3(0, JumpPower / rigBody.velocity.magnitude, rigBody.velocity.magnitude));
                     }
-                    else if (Vector3.Dot(directionMove(transform.position, startPos), Vector3.forward) < 0)
+                    if (Vector3.Dot(directionMove(transform.position, startPos), Vector3.forward) < 0)
                     {
                         rigBody.AddForce(new Vector3(0, JumpPower / rigBody.velocity.magnitude, -rigBody.velocity.magnitude));
-                    }; //определяем направление движения                    
-                    rigBody.AddForce(new Vector3(0, JumpPower, 0));
-
+                    }
+                   
                 }
+               
                 /*   если мы не в воздухе то 
                  *
                  *   если ПРЫЖОК то импульс вверх
